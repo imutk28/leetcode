@@ -1,0 +1,21 @@
+ void recurse(TreeNode *root, int curr_sum, int &target, vector<int> &temp, vector<vector<int>> &ans) {
+        if (!root)
+            return;
+        temp.push_back(root -> val);
+        curr_sum += root -> val;
+        if (!root -> left && !root -> right && curr_sum == target) {
+            ans.push_back(temp);
+            temp.pop_back();
+            return;
+        }
+        recurse(root -> left, curr_sum, target, temp, ans);
+        recurse(root -> right, curr_sum, target, temp, ans);
+        temp.pop_back();
+    }
+    
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        recurse(root, 0, sum, temp, ans);
+        return ans;
+    }
