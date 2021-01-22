@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int threeSumMulti(vector<int>& A, int target) {
+        sort(A.begin(), A.end());
+    int res = 0, n = (int)A.size(), modulo = 1000000007;
+    unordered_map<int, int> numCount;
+    for (int i = 0; i < n; i++)
+        numCount[A[i]]++;
+    for (int i = 0; i < n; i++)
+    {
+        numCount[A[i]]--;
+        int left = i + 1, right = n - 1;
+        while (left < right) {
+            if (A[left] + A[right] == target - A[i])
+            {
+                if (A[left] == A[right]) res = (res + numCount[A[left]] * (numCount[A[left]] - 1) / 2) % modulo;
+                else res = (res + numCount[A[left]] * numCount[A[right]]) % modulo;
+                left++;
+                right--;
+                while (left < n - 1 && A[left] == A[left - 1]) left++;
+                while (right > 0 && A[right] == A[right + 1]) right--;
+            }
+            else if (A[left] + A[right] < target - A[i]) left++;
+            else right--;
+        }
+    }
+    return res;
+    }
+};
