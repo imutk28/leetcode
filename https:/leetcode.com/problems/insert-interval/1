@@ -1,0 +1,46 @@
+class Solution {
+public:
+     bool is_overlap(int x,int y,int a,int b)
+    { 
+       if(a>y)
+           return false;
+        else if(b<x)
+            return false;
+        return true;
+      
+    }
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& a) {
+        vector<vector<int>> v;
+        if(intervals.size()==0){
+            v.push_back(a);
+            return v;
+        }
+        int x,y;
+        for(int i=0;i<intervals.size();i++){
+            x=intervals[i][0];
+            y=intervals[i][1];
+            if(is_overlap(x,y,a[0],a[1])){
+                a[0]=min(x,a[0]);
+                a[1]=max(y,a[1]);
+                if(i==intervals.size()-1){
+                    v.push_back(a);
+                }
+            }
+            else{
+                if(a[0]<intervals[i][0]){
+                    v.push_back(a);
+                    while(i<intervals.size()){
+                        v.push_back(intervals[i]);
+                        i++;
+                    }
+                }
+                else{
+                    v.push_back(intervals[i]);
+                    if(i==intervals.size()-1)
+                        v.push_back(a);
+                }
+            }
+        }
+        return v;
+    }
+};
